@@ -1,0 +1,15 @@
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.25rem;
+  border-radius: 0.85rem;
+  background: rgba(30, 41, 59, 0.55);
+  border: 1px dashed rgba(148, 163, 184, 0.4);
+  text-align: center;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.empty-state strong {
+  font-size: 1rem;
+}

@@ -1,0 +1,154 @@
+.planning-panel {
+  gap: 1.5rem;
+}
+
+.plan-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.plan-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: rgba(226, 232, 240, 0.78);
+}
+
+.plan-form__group span {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.65rem;
+  color: rgba(148, 163, 184, 0.85);
+}
+
+.plan-form__group textarea,
+.plan-form__group input,
+.plan-form__group select {
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  color: #e2e8f0;
+  border-radius: 0.65rem;
+  padding: 0.7rem 0.8rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.plan-form__group--select select {
+  height: 42px;
+}
+
+.plan-form__row {
+  display: grid;
+  grid-template-columns: 1fr minmax(150px, 220px);
+  gap: 1rem;
+}
+
+.plan-form__checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: rgba(226, 232, 240, 0.8);
+}
+
+.plan-form__checkbox input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: #22d3ee;
+}
+
+.plan-form__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.plan-form__actions .primary {
+  padding: 0.65rem 1.05rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: linear-gradient(120deg, #22d3ee, #3b82f6);
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(34, 211, 238, 0.25);
+}
+
+.plan-form__actions .primary:hover {
+  filter: brightness(1.05);
+}
+
+.plan-form__summary {
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.plan-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.plan-list__step {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(30, 41, 59, 0.55);
+}
+
+.plan-list__copy h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.plan-list__copy p {
+  margin: 0.45rem 0 0;
+  color: rgba(226, 232, 240, 0.75);
+  line-height: 1.4;
+}
+
+.plan-list__status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  color: rgba(148, 163, 184, 0.85);
+}
+
+.plan-list__status select {
+  border-radius: 0.6rem;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(2, 6, 23, 0.55);
+  color: #e2e8f0;
+  padding: 0.5rem 0.6rem;
+}
+
+@media (max-width: 720px) {
+  .plan-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-form__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .plan-form__summary {
+    text-align: center;
+  }
+}

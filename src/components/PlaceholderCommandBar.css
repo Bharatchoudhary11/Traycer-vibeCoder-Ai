@@ -1,0 +1,51 @@
+.command-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  background-color: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.command-bar__logo {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.command-bar__commands {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.command-bar__command {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(30, 41, 59, 0.6);
+  color: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.command-bar__command:hover {
+  border-color: rgba(94, 234, 212, 0.55);
+  background: rgba(45, 55, 72, 0.75);
+}
+
+.command-bar__command kbd {
+  font-size: 0.68rem;
+  border-radius: 0.35rem;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background-color: rgba(15, 23, 42, 0.7);
+}

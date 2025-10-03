@@ -1,0 +1,117 @@
+.review-panel {
+  gap: 1.5rem;
+}
+
+.review-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.review-toolbar .secondary {
+  padding: 0.55rem 0.9rem;
+  border-radius: 0.65rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(30, 41, 59, 0.45);
+  color: rgba(226, 232, 240, 0.85);
+  cursor: pointer;
+}
+
+.review-toolbar__summary {
+  display: inline-flex;
+  gap: 0.8rem;
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.review-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.review-card {
+  padding: 1rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: border-color 160ms ease, opacity 160ms ease;
+}
+
+.review-card--resolved {
+  opacity: 0.6;
+  border-style: dashed;
+}
+
+.review-card--info {
+  border-color: rgba(59, 130, 246, 0.45);
+}
+
+.review-card--warning {
+  border-color: rgba(234, 179, 8, 0.45);
+}
+
+.review-card--error {
+  border-color: rgba(248, 113, 113, 0.45);
+}
+
+.review-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.review-card__tag {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  border-radius: 0.4rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(30, 41, 59, 0.75);
+  margin-right: 0.6rem;
+}
+
+.review-card__file {
+  color: rgba(226, 232, 240, 0.85);
+  font-size: 0.85rem;
+}
+
+.review-card pre {
+  margin: 0;
+  padding: 0.8rem;
+  border-radius: 0.65rem;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(2, 6, 23, 0.55);
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+}
+
+button.link {
+  border: none;
+  background: none;
+  color: #38bdf8;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 720px) {
+  .review-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .review-toolbar__summary {
+    margin-left: 0;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
