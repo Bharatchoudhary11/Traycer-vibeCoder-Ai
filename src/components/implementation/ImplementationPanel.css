@@ -18,6 +18,11 @@
   cursor: pointer;
 }
 
+.implementation-toolbar .secondary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .implementation-toolbar__summary {
   display: inline-flex;
   gap: 0.8rem;

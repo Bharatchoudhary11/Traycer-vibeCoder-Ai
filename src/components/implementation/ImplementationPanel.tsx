@@ -25,6 +25,7 @@ interface ImplementationPanelProps {
   ) => void;
   onUpdateChange: (id: string, patch: Partial<Omit<CodeChange, 'id'>>) => void;
   onUpdateChangeStatus: (id: string, status: CodeChangeStatus) => void;
+  onMarkAllReady: () => void;
   onRemoveChange: (id: string) => void;
 }
 
@@ -34,6 +35,7 @@ export function ImplementationPanel({
   onAddManualChange,
   onUpdateChange,
   onUpdateChangeStatus,
+  onMarkAllReady,
   onRemoveChange
 }: ImplementationPanelProps) {
   const [showManualForm, setShowManualForm] = useState(false);
@@ -56,6 +58,8 @@ export function ImplementationPanel({
     const inReview = task.changes.filter((change) => change.status === 'in-review').length;
     return { total, ready, draft, inReview };
   }, [task.changes]);
+
+  const hasPendingStatuses = stats.total > 0 && (stats.draft > 0 || stats.inReview > 0);
 
   const handleManualSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -89,6 +93,14 @@ export function ImplementationPanel({
         </button>
         <button type="button" className="secondary" onClick={() => setShowManualForm((value) => !value)}>
           {showManualForm ? 'Cancel manual change' : 'Add manual change'}
+        </button>
+        <button
+          type="button"
+          className="secondary"
+          onClick={onMarkAllReady}
+          disabled={!hasPendingStatuses}
+        >
+          Mark all ready
         </button>
         <div className="implementation-toolbar__summary">
           <span>Total: {stats.total}</span>

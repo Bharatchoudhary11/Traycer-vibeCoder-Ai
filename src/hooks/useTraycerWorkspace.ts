@@ -28,6 +28,7 @@ export interface TraycerWorkspaceApi {
   }) => void;
   updateCodeChange: (changeId: string, patch: Partial<Omit<CodeChange, 'id'>>) => void;
   updateCodeChangeStatus: (changeId: string, status: CodeChangeStatus) => void;
+  markAllChangesReady: () => void;
   removeCodeChange: (changeId: string) => void;
   runReview: (options?: ReviewRunOptions) => void;
   toggleReviewResolved: (reviewId: string) => void;
@@ -120,6 +121,21 @@ export function useTraycerWorkspace(): TraycerWorkspaceApi {
     updateCodeChange(changeId, { status });
   }, [updateCodeChange]);
 
+  const markAllChangesReady = useCallback(() => {
+    setTask((current) => ({
+      ...current,
+      changes: current.changes.map((change) =>
+        change.status === 'ready'
+          ? change
+          : {
+              ...change,
+              status: 'ready'
+            }
+      ),
+      reviews: []
+    }));
+  }, []);
+
   const removeCodeChange = useCallback((changeId: string) => {
     setTask((current) => ({
       ...current,
@@ -161,6 +177,7 @@ export function useTraycerWorkspace(): TraycerWorkspaceApi {
       addManualChange,
       updateCodeChange,
       updateCodeChangeStatus,
+      markAllChangesReady,
       removeCodeChange,
       runReview,
       toggleReviewResolved,
@@ -174,6 +191,7 @@ export function useTraycerWorkspace(): TraycerWorkspaceApi {
       addManualChange,
       updateCodeChange,
       updateCodeChangeStatus,
+      markAllChangesReady,
       removeCodeChange,
       runReview,
       toggleReviewResolved,

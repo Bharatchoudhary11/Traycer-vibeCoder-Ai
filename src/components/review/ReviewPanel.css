@@ -18,6 +18,45 @@
   cursor: pointer;
 }
 
+.review-toolbar .secondary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.review-readiness {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(234, 179, 8, 0.35);
+  background: rgba(234, 179, 8, 0.08);
+  color: rgba(234, 179, 8, 0.85);
+  font-size: 0.85rem;
+}
+
+.review-readiness strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+
+.review-readiness p {
+  margin: 0;
+  color: rgba(234, 179, 8, 0.75);
+}
+
+.review-readiness ul {
+  margin: 0.6rem 0 0;
+  padding-left: 1rem;
+  color: rgba(234, 179, 8, 0.78);
+}
+
+.review-readiness li + li {
+  margin-top: 0.25rem;
+}
+
 .review-toolbar__summary {
   display: inline-flex;
   gap: 0.8rem;
