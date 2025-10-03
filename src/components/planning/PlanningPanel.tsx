@@ -125,6 +125,21 @@ export function PlanningPanel({ task, onGeneratePlan, onUpdatePlanStepStatus }: 
             </div>
           </li>
         ))}
+        <li className="plan-list__validation">
+          <div className="plan-list__step plan-list__step--validation">
+            <div className="plan-list__copy">
+              <h3>Validate with automated tests</h3>
+              <p>
+                Ensure new behaviour is covered by automated tests and capture the validation notes alongside the
+                implementation changes before marking the work ready for review.
+              </p>
+            </div>
+            <div className="plan-list__status plan-list__status--validation">
+              <span>Expectation</span>
+              <span className="badge badge--required">Always</span>
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
   );
