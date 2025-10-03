@@ -88,6 +88,14 @@ export function ReviewPanel({ task, aiState, onRunReview, onToggleResolved, onMa
         </div>
       ) : null}
 
+      <div className="review-validation" role="note">
+        <h3>Before requesting review</h3>
+        <ul>
+          <li>Confirm the relevant automated test suites pass locally or in CI.</li>
+          <li>Summarise any exploratory or manual testing in the change log for reviewer visibility.</li>
+        </ul>
+      </div>
+
       <div className="review-toolbar">
         <button
           type="button"
