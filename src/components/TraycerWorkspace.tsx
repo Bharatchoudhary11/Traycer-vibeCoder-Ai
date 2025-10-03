@@ -42,6 +42,7 @@ export function TraycerWorkspace({ workspace }: TraycerWorkspaceProps) {
             onAddManualChange={workspace.addManualChange}
             onUpdateChange={workspace.updateCodeChange}
             onUpdateChangeStatus={workspace.updateCodeChangeStatus}
+            onMarkAllReady={workspace.markAllChangesReady}
             onRemoveChange={workspace.removeCodeChange}
           />
         </section>
@@ -50,6 +51,7 @@ export function TraycerWorkspace({ workspace }: TraycerWorkspaceProps) {
             task={task}
             onRunReview={workspace.runReview}
             onToggleResolved={workspace.toggleReviewResolved}
+            onMarkAllReady={workspace.markAllChangesReady}
           />
         </section>
       </main>

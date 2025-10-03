@@ -8,9 +8,10 @@ interface ReviewPanelProps {
   task: TraycerTask;
   onRunReview: (options?: ReviewRunOptions) => void;
   onToggleResolved: (reviewId: string) => void;
+  onMarkAllReady: () => void;
 }
 
-export function ReviewPanel({ task, onRunReview, onToggleResolved }: ReviewPanelProps) {
+export function ReviewPanel({ task, onRunReview, onToggleResolved, onMarkAllReady }: ReviewPanelProps) {
   const stats = useMemo(() => {
     const total = task.reviews.length;
     const resolved = task.reviews.filter((item) => item.resolved).length;
@@ -25,6 +26,12 @@ export function ReviewPanel({ task, onRunReview, onToggleResolved }: ReviewPanel
     return { total, resolved, bySeverity };
   }, [task.reviews]);
 
+  const notReadyChanges = useMemo(
+    () => task.changes.filter((change) => change.status !== 'ready'),
+    [task.changes]
+  );
+  const hasReadyChanges = task.changes.some((change) => change.status === 'ready');
+
   const runBalancedReview = () => onRunReview({ strictness: 'balanced' });
   const runStrictReview = () => onRunReview({ strictness: 'paranoid' });
 
@@ -35,11 +42,31 @@ export function ReviewPanel({ task, onRunReview, onToggleResolved }: ReviewPanel
         <p>Catch regressions early with incremental feedback.</p>
       </header>
 
+      {task.changes.length > 0 && !hasReadyChanges ? (
+        <div className="review-readiness">
+          <div>
+            <strong>Changes still in draft</strong>
+            <p>
+              Mark your implementation updates as ready before requesting an AI review. This ensures the reviewer focuses on
+              finalised work.
+            </p>
+            <ul>
+              {notReadyChanges.map((change) => (
+                <li key={change.id}>{change.filePath}</li>
+              ))}
+            </ul>
+          </div>
+          <button type="button" className="secondary" onClick={onMarkAllReady}>
+            Mark all ready
+          </button>
+        </div>
+      ) : null}
+
       <div className="review-toolbar">
-        <button type="button" className="secondary" onClick={runBalancedReview}>
+        <button type="button" className="secondary" onClick={runBalancedReview} disabled={!hasReadyChanges}>
           Run review
         </button>
-        <button type="button" className="secondary" onClick={runStrictReview}>
+        <button type="button" className="secondary" onClick={runStrictReview} disabled={!hasReadyChanges}>
           Run strict review
         </button>
         <div className="review-toolbar__summary">
