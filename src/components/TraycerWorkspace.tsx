@@ -3,6 +3,7 @@ import { TaskOverview } from './task/TaskOverview';
 import { PlanningPanel } from './planning/PlanningPanel';
 import { ImplementationPanel } from './implementation/ImplementationPanel';
 import { ReviewPanel } from './review/ReviewPanel';
+import { WorkspaceTelemetry } from './common/WorkspaceTelemetry';
 import { TraycerWorkspaceApi } from '../hooks/useTraycerWorkspace';
 import './TraycerWorkspace.css';
 
@@ -11,10 +12,11 @@ interface TraycerWorkspaceProps {
 }
 
 export function TraycerWorkspace({ workspace }: TraycerWorkspaceProps) {
-  const { task } = workspace;
+  const { task, aiStatus } = workspace;
   const layoutSections = useMemo(
     () => [
       { id: 'overview', title: 'Overview' },
+      { id: 'pulse', title: 'Pulse' },
       { id: 'planning', title: 'Plan' },
       { id: 'implementation', title: 'Implement' },
       { id: 'review', title: 'Review' }
@@ -28,9 +30,13 @@ export function TraycerWorkspace({ workspace }: TraycerWorkspaceProps) {
         <TaskOverview task={task} sections={layoutSections} />
       </aside>
       <main className="workspace__content">
+        <section className="workspace__section workspace__section--telemetry" id="pulse">
+          <WorkspaceTelemetry task={task} aiStatus={aiStatus} />
+        </section>
         <section className="workspace__section" id="planning">
           <PlanningPanel
             task={task}
+            aiState={aiStatus.planning}
             onGeneratePlan={workspace.regeneratePlan}
             onUpdatePlanStepStatus={workspace.updatePlanStepStatus}
           />
@@ -38,6 +44,7 @@ export function TraycerWorkspace({ workspace }: TraycerWorkspaceProps) {
         <section className="workspace__section" id="implementation">
           <ImplementationPanel
             task={task}
+            aiState={aiStatus.implementation}
             onSeedChanges={workspace.seedImplementation}
             onAddManualChange={workspace.addManualChange}
             onUpdateChange={workspace.updateCodeChange}
@@ -49,6 +56,7 @@ export function TraycerWorkspace({ workspace }: TraycerWorkspaceProps) {
         <section className="workspace__section" id="review">
           <ReviewPanel
             task={task}
+            aiState={aiStatus.review}
             onRunReview={workspace.runReview}
             onToggleResolved={workspace.toggleReviewResolved}
             onMarkAllReady={workspace.markAllChangesReady}

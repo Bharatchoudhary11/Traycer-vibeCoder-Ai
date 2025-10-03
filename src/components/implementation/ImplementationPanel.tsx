@@ -1,8 +1,11 @@
 import { FormEvent, useMemo, useState } from 'react';
 import { CodeChange, CodeChangeStatus, ImplementationSeedOptions, TraycerTask } from '../../lib/types';
+import { AiStageState } from '../../hooks/useTraycerWorkspace';
+import { describeProvider } from '../../lib/aiBridge';
 import '../common/panel.css';
 import '../common/badge.css';
 import '../common/empty-state.css';
+import '../common/ai-status.css';
 import './ImplementationPanel.css';
 
 const CHANGE_STATUSES: CodeChangeStatus[] = ['draft', 'ready', 'in-review'];
@@ -15,7 +18,7 @@ interface ManualChangeDraft {
 
 interface ImplementationPanelProps {
   task: TraycerTask;
-  onSeedChanges: (options?: ImplementationSeedOptions) => void;
+  onSeedChanges: (options?: ImplementationSeedOptions) => Promise<void> | void;
   onAddManualChange: (
     change: ManualChangeDraft & {
       before?: string;
@@ -27,6 +30,7 @@ interface ImplementationPanelProps {
   onUpdateChangeStatus: (id: string, status: CodeChangeStatus) => void;
   onMarkAllReady: () => void;
   onRemoveChange: (id: string) => void;
+  aiState: AiStageState;
 }
 
 export function ImplementationPanel({
@@ -36,7 +40,8 @@ export function ImplementationPanel({
   onUpdateChange,
   onUpdateChangeStatus,
   onMarkAllReady,
-  onRemoveChange
+  onRemoveChange,
+  aiState
 }: ImplementationPanelProps) {
   const [showManualForm, setShowManualForm] = useState(false);
   const [manualDraft, setManualDraft] = useState<ManualChangeDraft>({
@@ -60,6 +65,13 @@ export function ImplementationPanel({
   }, [task.changes]);
 
   const hasPendingStatuses = stats.total > 0 && (stats.draft > 0 || stats.inReview > 0);
+  const isSeeding = aiState.status === 'loading';
+  const implementationProvider = describeProvider(aiState.provider);
+  const implementationMessage = aiState.error ?? aiState.message ?? 'Ready to orchestrate file changes.';
+  const implementationWarning = aiState.warning;
+  const implementationTimestamp = aiState.updatedAt
+    ? new Date(aiState.updatedAt).toLocaleTimeString()
+    : undefined;
 
   const handleManualSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -87,9 +99,28 @@ export function ImplementationPanel({
         <p>Track precise edits, rationale, and readiness for review.</p>
       </header>
 
+      <div className={`ai-status-strip ai-status-strip--${aiState.status}`} aria-live="polite">
+        <span className="ai-status-strip__dot" aria-hidden />
+        <div className="ai-status-strip__content">
+          <div className="ai-status-strip__row">
+            <span className="ai-status-strip__label">AI implementation coach</span>
+            <span className="ai-status-strip__provider">{implementationProvider}</span>
+            {implementationTimestamp ? (
+              <span className="ai-status-strip__timestamp">Updated {implementationTimestamp}</span>
+            ) : null}
+          </div>
+          <span className={`ai-status-strip__message ${aiState.status === 'error' ? 'ai-status-strip__message--error' : ''}`}>
+            {implementationMessage}
+          </span>
+          {implementationWarning ? (
+            <span className="ai-status-strip__warning">Fallback: {implementationWarning}</span>
+          ) : null}
+        </div>
+      </div>
+
       <div className="implementation-toolbar">
-        <button type="button" className="secondary" onClick={handleSeed}>
-          Seed from plan
+        <button type="button" className="secondary" onClick={handleSeed} disabled={isSeeding}>
+          {isSeeding ? 'Seeding…' : 'Seed from plan'}
         </button>
         <button type="button" className="secondary" onClick={() => setShowManualForm((value) => !value)}>
           {showManualForm ? 'Cancel manual change' : 'Add manual change'}

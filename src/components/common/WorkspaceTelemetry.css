@@ -1,0 +1,121 @@
+.workspace-telemetry {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.workspace-telemetry__card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+  box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.08);
+}
+
+.workspace-telemetry__card header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.workspace-telemetry__card header p {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.workspace-telemetry__card--pulse {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.22), rgba(15, 23, 42, 0.8));
+  border-color: rgba(56, 189, 248, 0.25);
+}
+
+.workspace-telemetry__score {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.workspace-telemetry__score-value {
+  font-size: 2.65rem;
+  font-weight: 700;
+  color: #5eead4;
+}
+
+.workspace-telemetry__score-unit {
+  font-size: 0.85rem;
+  color: rgba(148, 163, 184, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.workspace-telemetry__bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.workspace-telemetry__bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.workspace-telemetry__bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.88);
+}
+
+.workspace-telemetry__bar-header strong {
+  font-size: 0.85rem;
+  color: rgba(226, 232, 240, 0.95);
+}
+
+.workspace-telemetry__bar-track {
+  position: relative;
+  display: inline-flex;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  height: 0.55rem;
+  background: rgba(148, 163, 184, 0.25);
+}
+
+.workspace-telemetry__bar-track > span {
+  display: inline-block;
+  height: 100%;
+  background: linear-gradient(135deg, #22d3ee, #38bdf8);
+  transition: width 220ms ease;
+}
+
+.workspace-telemetry__card--ai {
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.16), rgba(15, 23, 42, 0.8));
+  border-color: rgba(129, 140, 248, 0.25);
+}
+
+.workspace-telemetry__ai-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.workspace-telemetry__ai-list .ai-status-strip {
+  box-shadow: none;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.workspace-telemetry__ai-list .ai-status-strip::after {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .workspace-telemetry {
+    grid-template-columns: 1fr;
+  }
+}

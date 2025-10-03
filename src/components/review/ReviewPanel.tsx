@@ -1,17 +1,21 @@
 import { useMemo } from 'react';
 import { ReviewRunOptions, TraycerTask } from '../../lib/types';
+import { AiStageState } from '../../hooks/useTraycerWorkspace';
+import { describeProvider } from '../../lib/aiBridge';
 import '../common/panel.css';
 import '../common/empty-state.css';
+import '../common/ai-status.css';
 import './ReviewPanel.css';
 
 interface ReviewPanelProps {
   task: TraycerTask;
-  onRunReview: (options?: ReviewRunOptions) => void;
+  aiState: AiStageState;
+  onRunReview: (options?: ReviewRunOptions) => Promise<void> | void;
   onToggleResolved: (reviewId: string) => void;
   onMarkAllReady: () => void;
 }
 
-export function ReviewPanel({ task, onRunReview, onToggleResolved, onMarkAllReady }: ReviewPanelProps) {
+export function ReviewPanel({ task, aiState, onRunReview, onToggleResolved, onMarkAllReady }: ReviewPanelProps) {
   const stats = useMemo(() => {
     const total = task.reviews.length;
     const resolved = task.reviews.filter((item) => item.resolved).length;
@@ -31,6 +35,11 @@ export function ReviewPanel({ task, onRunReview, onToggleResolved, onMarkAllRead
     [task.changes]
   );
   const hasReadyChanges = task.changes.some((change) => change.status === 'ready');
+  const isReviewing = aiState.status === 'loading';
+  const reviewerProvider = describeProvider(aiState.provider);
+  const reviewerMessage = aiState.error ?? aiState.message ?? 'Run the reviewer once implementation is ready.';
+  const reviewerWarning = aiState.warning;
+  const reviewerTimestamp = aiState.updatedAt ? new Date(aiState.updatedAt).toLocaleTimeString() : undefined;
 
   const runBalancedReview = () => onRunReview({ strictness: 'balanced' });
   const runStrictReview = () => onRunReview({ strictness: 'paranoid' });
@@ -41,6 +50,23 @@ export function ReviewPanel({ task, onRunReview, onToggleResolved, onMarkAllRead
         <h2>Review</h2>
         <p>Catch regressions early with incremental feedback.</p>
       </header>
+
+      <div className={`ai-status-strip ai-status-strip--${aiState.status}`} aria-live="polite">
+        <span className="ai-status-strip__dot" aria-hidden />
+        <div className="ai-status-strip__content">
+          <div className="ai-status-strip__row">
+            <span className="ai-status-strip__label">AI reviewer</span>
+            <span className="ai-status-strip__provider">{reviewerProvider}</span>
+            {reviewerTimestamp ? (
+              <span className="ai-status-strip__timestamp">Updated {reviewerTimestamp}</span>
+            ) : null}
+          </div>
+          <span className={`ai-status-strip__message ${aiState.status === 'error' ? 'ai-status-strip__message--error' : ''}`}>
+            {reviewerMessage}
+          </span>
+          {reviewerWarning ? <span className="ai-status-strip__warning">Fallback: {reviewerWarning}</span> : null}
+        </div>
+      </div>
 
       {task.changes.length > 0 && !hasReadyChanges ? (
         <div className="review-readiness">
@@ -63,10 +89,20 @@ export function ReviewPanel({ task, onRunReview, onToggleResolved, onMarkAllRead
       ) : null}
 
       <div className="review-toolbar">
-        <button type="button" className="secondary" onClick={runBalancedReview} disabled={!hasReadyChanges}>
+        <button
+          type="button"
+          className="secondary"
+          onClick={runBalancedReview}
+          disabled={!hasReadyChanges || isReviewing}
+        >
           Run review
         </button>
-        <button type="button" className="secondary" onClick={runStrictReview} disabled={!hasReadyChanges}>
+        <button
+          type="button"
+          className="secondary"
+          onClick={runStrictReview}
+          disabled={!hasReadyChanges || isReviewing}
+        >
           Run strict review
         </button>
         <div className="review-toolbar__summary">
