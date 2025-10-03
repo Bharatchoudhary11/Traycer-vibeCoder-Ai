@@ -141,6 +141,17 @@ export function ImplementationPanel({
         </div>
       </div>
 
+      <div className="implementation-validation" role="note">
+        <h3>Validation expectations</h3>
+        <ul>
+          <li>
+            Link each ready change to the automated tests (unit, integration, or end-to-end) that now exercise the new
+            behaviour.
+          </li>
+          <li>Record any manual verification performed so reviewers can double-check critical paths.</li>
+        </ul>
+      </div>
+
       {showManualForm ? (
         <form className="manual-change" onSubmit={handleManualSubmit}>
           <div className="manual-change__row">

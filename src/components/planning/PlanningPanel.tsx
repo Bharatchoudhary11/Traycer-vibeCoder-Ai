@@ -126,6 +126,17 @@ export function PlanningPanel({ task, aiState, onGeneratePlan, onUpdatePlanStepS
               </div>
             </li>
           ))}
+          <li className="plan-timeline__item plan-timeline__item--validation">
+            <span className="plan-timeline__index" aria-hidden>
+              QA
+            </span>
+            <div className="plan-timeline__copy">
+              <span className="plan-timeline__title">Document automated test coverage</span>
+              <span className="plan-timeline__note">
+                Capture which automated tests protect the change and log any manual validation notes before review.
+              </span>
+            </div>
+          </li>
         </ol>
       ) : null}
 
