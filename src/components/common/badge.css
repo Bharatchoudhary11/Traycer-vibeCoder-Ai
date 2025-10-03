@@ -39,3 +39,8 @@
   background: rgba(250, 204, 21, 0.18);
   color: #fde68a;
 }
+
+.badge--required {
+  background: rgba(244, 63, 94, 0.18);
+  color: #fda4af;
+}
