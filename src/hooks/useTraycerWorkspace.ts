@@ -137,10 +137,16 @@ export function useTraycerWorkspace(): TraycerWorkspaceApi {
   }, []);
 
   const removeCodeChange = useCallback((changeId: string) => {
-    setTask((current) => ({
-      ...current,
-      changes: current.changes.filter((change) => change.id !== changeId)
-    }));
+    setTask((current) => {
+      const changes = current.changes.filter((change) => change.id !== changeId);
+      const remainingPaths = new Set(changes.map((change) => change.filePath));
+
+      return {
+        ...current,
+        changes,
+        reviews: current.reviews.filter((review) => remainingPaths.has(review.filePath))
+      };
+    });
   }, []);
 
   const runReview = useCallback((options?: ReviewRunOptions) => {
