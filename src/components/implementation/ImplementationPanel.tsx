@@ -25,6 +25,7 @@ interface ImplementationPanelProps {
   ) => void;
   onUpdateChange: (id: string, patch: Partial<Omit<CodeChange, 'id'>>) => void;
   onUpdateChangeStatus: (id: string, status: CodeChangeStatus) => void;
+  onRemoveChange: (id: string) => void;
 }
 
 export function ImplementationPanel({
@@ -32,7 +33,8 @@ export function ImplementationPanel({
   onSeedChanges,
   onAddManualChange,
   onUpdateChange,
-  onUpdateChangeStatus
+  onUpdateChangeStatus,
+  onRemoveChange
 }: ImplementationPanelProps) {
   const [showManualForm, setShowManualForm] = useState(false);
   const [manualDraft, setManualDraft] = useState<ManualChangeDraft>({
@@ -51,7 +53,8 @@ export function ImplementationPanel({
     const total = task.changes.length;
     const ready = task.changes.filter((change) => change.status === 'ready').length;
     const draft = task.changes.filter((change) => change.status === 'draft').length;
-    return { total, ready, draft };
+    const inReview = task.changes.filter((change) => change.status === 'in-review').length;
+    return { total, ready, draft, inReview };
   }, [task.changes]);
 
   const handleManualSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -91,6 +94,7 @@ export function ImplementationPanel({
           <span>Total: {stats.total}</span>
           <span>Ready: {stats.ready}</span>
           <span>Draft: {stats.draft}</span>
+          <span>In review: {stats.inReview}</span>
         </div>
       </div>
 
@@ -161,7 +165,16 @@ export function ImplementationPanel({
                       ))}
                     </select>
                   </div>
-                  <span className={`badge badge--${change.status}`}>{change.status}</span>
+                  <div className="change-card__status">
+                    <span className={`badge badge--${change.status}`}>{change.status}</span>
+                    <button
+                      type="button"
+                      className="change-card__remove"
+                      onClick={() => onRemoveChange(change.id)}
+                    >
+                      Remove change
+                    </button>
+                  </div>
                 </header>
 
                 <label className="change-card__field">

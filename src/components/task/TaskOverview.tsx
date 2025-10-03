@@ -16,7 +16,7 @@ export function TaskOverview({ task, sections }: TaskOverviewProps) {
   }, [task.plan]);
 
   return (
-    <div className="task-overview">
+    <div className="task-overview" id="overview">
       <div className="task-overview__header">
         <h1>{task.title}</h1>
         <p>{task.prompt}</p>

@@ -42,6 +42,7 @@ export function TraycerWorkspace({ workspace }: TraycerWorkspaceProps) {
             onAddManualChange={workspace.addManualChange}
             onUpdateChange={workspace.updateCodeChange}
             onUpdateChangeStatus={workspace.updateCodeChangeStatus}
+            onRemoveChange={workspace.removeCodeChange}
           />
         </section>
         <section className="workspace__section" id="review">
